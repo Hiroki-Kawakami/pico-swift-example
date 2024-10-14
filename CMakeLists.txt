@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.22)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(PICO_BOARD pico_w)
 
 if(APPLE)
 execute_process(COMMAND plutil -extract CFBundleIdentifier raw /Library/Developer/Toolchains/swift-latest.xctoolchain/Info.plist OUTPUT_VARIABLE TOOLCHAINS OUTPUT_STRIP_TRAILING_WHITESPACE)
@@ -21,6 +22,9 @@ file(GLOB_RECURSE SWIFT_LIST ${CMAKE_CURRENT_LIST_DIR}/src/*.swift)
 add_library(swiftcode STATIC ${SWIFT_LIST})
 target_compile_options(swiftcode PRIVATE
     "SHELL:-Xcc -DPICO_RP2040"
+    "SHELL:-Xcc -DCYW43_LWIP"
+    "SHELL:-Xcc -DPICO_CYW43_ARCH_THREADSAFE_BACKGROUND"
+    "SHELL:-Xcc -I$ENV{PICO_SDK_PATH}/lib/lwip/src/include"
     "SHELL:-Xcc -I${CMAKE_CURRENT_LIST_DIR}/include"
     "SHELL:-Xcc -I$<JOIN:$<TARGET_PROPERTY:pico-swift,INCLUDE_DIRECTORIES>, -Xcc -I>"
     "SHELL:-Xcc -I$<JOIN:${CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES}, -Xcc -I>"
@@ -29,7 +33,7 @@ target_compile_options(swiftcode PRIVATE
 
 add_executable(pico-swift)
 target_link_libraries(pico-swift
-    pico_stdlib hardware_uart hardware_gpio
+    pico_stdlib hardware_uart hardware_gpio pico_lwip_arch pico_cyw43_arch_none
     ${CMAKE_CURRENT_BINARY_DIR}/libswiftcode.a
 )
 target_include_directories(pico-swift PUBLIC ${CMAKE_CURRENT_LIST_DIR}/include)

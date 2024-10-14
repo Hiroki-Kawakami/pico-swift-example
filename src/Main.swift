@@ -3,17 +3,37 @@ struct Main {
     static func main() {
         stdio_init_all()
 
-        let led = UInt32(PICO_DEFAULT_LED_PIN)
-        gpio_init(led)
-        gpio_set_dir(led, true)
-
+        let led = UInt32(CYW43_WL_GPIO_LED_PIN)
+        if cyw43_arch_init() != 0 {
+            print("Wi-Fi init failed")
+            return
+        }
+        let dot = {
+            cyw43_arch_gpio_put(led, true)
+            sleep_ms(250)
+            cyw43_arch_gpio_put(led, false)
+            sleep_ms(250)
+        }
+        let dash = {
+            cyw43_arch_gpio_put(led, true)
+            sleep_ms(500)
+            cyw43_arch_gpio_put(led, false)
+            sleep_ms(250)
+        }
         while true {
-            print("Hello World!")
+            print("Hello, world!")
 
-            gpio_put(led, true)
-            sleep_ms(250)
-            gpio_put(led, false)
-            sleep_ms(250)
+            dot()
+            dot()
+            dot()
+
+            dash()
+            dash()
+            dash()
+
+            dot()
+            dot()
+            dot()
         }
     }
 }

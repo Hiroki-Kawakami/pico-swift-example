@@ -1,5 +1,8 @@
-# pico-swift-example
+# pico-swift-example (pico_w_blink)
 Raspberry Pi Pico + Embedded Swift + VSCode Example Project
+
+Control CYW43 GPIO and blink LED on Raspberry Pi Pico W board.  
+This project is only for Raspberry Pico W, not for normal Pico and Pico2.
 
 ## Setup
 
