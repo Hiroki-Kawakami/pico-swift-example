@@ -86,11 +86,11 @@ with open(args.output, "w") as f:
 # generate c_cpp_properties.json for c headers
 if args.c_cpp_properties is not None and len(compile_commands) > 0:
     include_path: list[str] = []
-    for match in re.finditer(r"\s+-I\s*([^\s]+)", compile_commands[0]["command"]):
+    for match in re.finditer(r"-Xcc -I\s*([^\s]+)", compile_commands[0]["command"]):
         include_path.append(match.group(1))
     defines: list[str] = []
-    for match in re.finditer(r"\s+-D\s*([^\s]+)", compile_commands[0]["command"]):
-        if re.match(r"[A-Za-z_][A-Za-z0-9_]*", match.group(1)):
+    for match in re.finditer(r"-Xcc -D\s*([^\s]+)", compile_commands[0]["command"]):
+        if match.group(1).find("=") == -1:
             defines.append(match.group(1) + "=1")
         else:
             defines.append(match.group(1))
