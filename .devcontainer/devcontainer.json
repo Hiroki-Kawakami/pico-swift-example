@@ -1,0 +1,25 @@
+{
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "sswg.swift-lang",
+                "ms-vscode.cpptools",
+                "ms-vscode.cmake-tools"
+            ],
+            "settings": {
+                "swift.path": "/opt/swift/usr/bin",
+                "lldb.library": "/opt/swift/usr/lib/liblldb.so",
+                "swift.sourcekit-lsp.supported-languages": [
+                    "swift"
+                ],
+                "cmake.generator": "Ninja",
+                "cmake.exportCompileCommandsFile": false,
+                "cmake.loadCompileCommands": false,
+                "cmake.enableAutomaticKitScan": false
+            }
+        }
+    }
+}
