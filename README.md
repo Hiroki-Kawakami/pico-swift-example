@@ -1,5 +1,7 @@
-# pico-swift-example
+# pico-swift-example (multiplatform)
 Raspberry Pi Pico + Embedded Swift + VSCode Example Project
+
+Build binary for Pico, Pico W, and Pico 2 from single project.
 
 ## Setup
 
@@ -36,17 +38,29 @@ $ xcrun --toolchain $(plutil -extract CFBundleIdentifier raw /Library/Developer/
 
 ### From terminal
 ```sh
-$ cmake -B build -G Ninja .
+# Make sure build directory is cleaned.
+$ rm -rf build
+
+# for Raspberry Pi Pico
+$ cmake --preset pico
+$ cmake --build build
+
+# for Raspberry Pi Pico W
+$ cmake --preset pico_w
+$ cmake --build build
+
+# for Raspberry Pi Pico 2
+$ cmake --preset pico2
 $ cmake --build build
 ```
 
 ### From VSCode CMake Extension
 
-Just click `Build` button in bottom status bar.
+Select your board from `CMake: Select Configure Preset`, and click `Build` button in bottom status bar.
 
 ## Flash
 
-Hold BOOTSEL button on Raspberry Pi Board while plugging your machine, and copy `build/pico-swift.uf2` into `RPI_RP2` storage.
+Hold BOOTSEL button on Raspberry Pi Board while plugging your machine, and copy `build/pico-swift.uf2` into `RPI_RP2` or `RP2350` storage.
 
 ## References
 

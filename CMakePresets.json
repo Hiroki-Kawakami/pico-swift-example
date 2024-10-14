@@ -1,0 +1,36 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 22,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "pico",
+      "displayName": "Raspberry Pi Pico",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build",
+      "cacheVariables": {
+        "PICO_BOARD": "pico"
+      }
+    },
+    {
+      "name": "pico_w",
+      "inherits": "pico",
+      "displayName": "Raspberry Pi Pico W",
+      "cacheVariables": {
+        "PICO_BOARD": "pico_w"
+      }
+    },
+    {
+      "name": "pico2",
+      "inherits": "pico",
+      "displayName": "Raspberry Pi Pico 2",
+      "cacheVariables": {
+        "PICO_BOARD": "pico2",
+        "PICO_PLATFORM": "rp2350-arm-s"
+      }
+    }
+  ]
+}
