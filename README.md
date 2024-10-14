@@ -1,5 +1,10 @@
-# pico-swift-example
+# pico-swift-example (rp2040_blink)
 Raspberry Pi Pico + Embedded Swift + VSCode Example Project
+
+This project is only for normal Raspberry Pi Pico (rp2040) board.  
+For projects for other boards, see:
+- [pico_w_blink](https://github.com/Hiroki-Kawakami/pico-swift-example/tree/pico_w_blink): Blink LED on Raspberry Pi Pico W board
+- [multiplatform](https://github.com/Hiroki-Kawakami/pico-swift-example/tree/multiplatform): Build binary for pico,pico_w,pico2 boards from single project.
 
 ## Setup
 
