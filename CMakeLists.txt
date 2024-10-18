@@ -8,10 +8,13 @@ execute_process(COMMAND xcrun --toolchain ${TOOLCHAINS} -f swiftc OUTPUT_VARIABL
 message("CMAKE_Swift_COMPILER: ${CMAKE_Swift_COMPILER}")
 endif()
 set(CMAKE_Swift_COMPILER_WORKS true)
+set(FREERTOS_KERNEL_PATH ${CMAKE_CURRENT_LIST_DIR}/FreeRTOS-Kernel)
 if(PICO_PLATFORM STREQUAL "rp2350-arm-s")
 set(CMAKE_Swift_COMPILER_TARGET armv7em-none-none-eabi)
+include(${FREERTOS_KERNEL_PATH}/portable/ThirdParty/GCC/RP2350_ARM_NTZ/FREERTOS_KERNEL_import.cmake)
 else()
 set(CMAKE_Swift_COMPILER_TARGET armv6m-none-none-eabi)
+include(${FREERTOS_KERNEL_PATH}/portable/ThirdParty/GCC/RP2040/FREERTOS_KERNEL_import.cmake)
 endif()
 string(JOIN " " CMAKE_Swift_FLAGS
     "-Xcc -mfloat-abi=soft -Xcc -fshort-enums"
@@ -45,10 +48,11 @@ target_compile_options(swiftcode PRIVATE
     -import-bridging-header ${CMAKE_CURRENT_LIST_DIR}/include/BridgingHeader.h
 )
 
-add_executable(pico-swift)
+add_executable(pico-swift c_src/posix.c)
 target_link_libraries(pico-swift
-    pico_stdlib hardware_uart hardware_gpio
+    pico_stdlib pico_multicore hardware_uart hardware_gpio
     "$<$<STREQUAL:${PICO_BOARD},pico_w>:pico_lwip_arch;pico_cyw43_arch_none>"
+    FreeRTOS-Kernel FreeRTOS-Kernel-Heap3
     ${CMAKE_CURRENT_BINARY_DIR}/libswiftcode.a
 )
 target_include_directories(pico-swift PUBLIC ${CMAKE_CURRENT_LIST_DIR}/include)
